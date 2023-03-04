@@ -140,10 +140,8 @@ const toggleSpinner = (isLoading) => {
   const loaderSection = document.getElementById("loading");
   if (isLoading) {
     loaderSection.classList.remove("hidden");
-  }
-  else{
+  } else {
     loaderSection.classList.add("hidden");
-    
   }
 };
 
