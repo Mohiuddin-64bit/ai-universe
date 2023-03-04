@@ -7,6 +7,7 @@ const loadData = () => {
 
 const displayData = (data) => {
   const cards = document.getElementById("cards");
+  cards.innerHTML = ""; // Clear existing cards
   data.forEach((allData) => {
     const { image, name, features, published_in, id } = allData;
     const list = features.map((feature) => `<li>${feature}</li>`).join("");
@@ -33,6 +34,7 @@ const displayData = (data) => {
     </div>
     `;
   });
+  toggleSpinner(false);
 };
 
 // Data for Modal section
@@ -127,12 +129,22 @@ const singleDataDisplay = (data) => {
 };
 
 const showAllCard = () => {
-  const showAllBtn = document.getElementById("show-all");
+  toggleSpinner(true);
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => displayData(data.data.tools.slice(6)));
-  showAllBtn.style.display = "hidden"
-}
+    .then((data) => displayData(data.data.tools));
+};
+
+const toggleSpinner = (isLoading) => {
+  const loaderSection = document.getElementById("loading");
+  if (isLoading) {
+    loaderSection.classList.remove("hidden");
+  }
+  else{
+    loaderSection.classList.add("hidden");
+    
+  }
+};
 
 loadData();
