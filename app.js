@@ -2,23 +2,11 @@ const loadData = () => {
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => displayData(data.data.tools));
+    .then((data) => displayData(data.data.tools.slice(0, 6)));
 };
 
 const displayData = (data) => {
   const cards = document.getElementById("cards");
-  cards.innerHTML = ""; // Clear existing cards
-  if (data.length > 6) {
-    data = data.slice(0, 6);
-    const showAllBtn = document.getElementById("show-all");
-    showAllBtn.style.display = "block";
-    showAllBtn.addEventListener("click", () => {
-      showAllBtn.style.display = "hidden";
-      data = data.slice(6);
-      console.log(data)
-      displayData(data);
-    });
-  }
   data.forEach((allData) => {
     const { image, name, features, published_in, id } = allData;
     const list = features.map((feature) => `<li>${feature}</li>`).join("");
@@ -137,5 +125,14 @@ const singleDataDisplay = (data) => {
 
   `;
 };
+
+const showAllCard = () => {
+  const showAllBtn = document.getElementById("show-all");
+  const url = `https://openapi.programming-hero.com/api/ai/tools`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => displayData(data.data.tools.slice(6)));
+  showAllBtn.style.display = "hidden"
+}
 
 loadData();
