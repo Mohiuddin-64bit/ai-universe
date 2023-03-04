@@ -5,23 +5,20 @@ const loadData = () => {
     .then((data) => displayData(data.data.tools));
 };
 
-
-// const displayData = (data) => {
-  //   const cards = document.getElementById("cards");
-  //   cards.innerHTML = "";
-  //   if (data > 6) {
-//     data = data.slice(0, 6);
-//     const showAllBtn = document.getElementById("show-all");
-//     showAllBtn.style.display = "block";
-//     showAllBtn.addEventListener("click", () => {
-  //       showAllBtn.style.display = "hidden";
-  //       data = data.slice(6);
-  //       displayData(data);
-  //     });
-  //   }
-  const displayData = (data) => {
-    const cards = document.getElementById("cards");
-    cards.innerHTML = ""; // Clear existing cards
+const displayData = (data) => {
+  const cards = document.getElementById("cards");
+  cards.innerHTML = ""; // Clear existing cards
+  if (data.length > 6) {
+    data = data.slice(0, 6);
+    const showAllBtn = document.getElementById("show-all");
+    showAllBtn.style.display = "block";
+    showAllBtn.addEventListener("click", () => {
+      showAllBtn.style.display = "hidden";
+      data = data.slice(6);
+      console.log(data)
+      displayData(data);
+    });
+  }
   data.forEach((allData) => {
     const { image, name, features, published_in, id } = allData;
     const list = features.map((feature) => `<li>${feature}</li>`).join("");
@@ -73,7 +70,9 @@ const singleDataDisplay = (data) => {
   const PricingSection = pricing
     .map(
       (item) =>
-        `<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price ? item.price : "Free of cost"} ${item.plan} </div>`
+        `<div class="text-center bg-pink-300 text-pink-500 rounded">${
+          item.price ? item.price : "Free of cost"
+        } ${item.plan} </div>`
     )
     .join("");
   // Feature List
