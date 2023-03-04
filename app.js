@@ -5,10 +5,23 @@ const loadData = () => {
     .then((data) => displayData(data.data.tools));
 };
 
-const displayData = (data) => {
-  // console.log(data);
-  data = data.slice(0, 6);
-  const cards = document.getElementById("cards");
+
+// const displayData = (data) => {
+  //   const cards = document.getElementById("cards");
+  //   cards.innerHTML = "";
+  //   if (data > 6) {
+//     data = data.slice(0, 6);
+//     const showAllBtn = document.getElementById("show-all");
+//     showAllBtn.style.display = "block";
+//     showAllBtn.addEventListener("click", () => {
+  //       showAllBtn.style.display = "hidden";
+  //       data = data.slice(6);
+  //       displayData(data);
+  //     });
+  //   }
+  const displayData = (data) => {
+    const cards = document.getElementById("cards");
+    cards.innerHTML = ""; // Clear existing cards
   data.forEach((allData) => {
     const { image, name, features, published_in, id } = allData;
     const list = features.map((feature) => `<li>${feature}</li>`).join("");
@@ -60,7 +73,7 @@ const singleDataDisplay = (data) => {
   const PricingSection = pricing
     .map(
       (item) =>
-        `<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price} ${item.plan} </div>`
+        `<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price ? item.price : "Free of cost"} ${item.plan} </div>`
     )
     .join("");
   // Feature List
@@ -70,7 +83,7 @@ const singleDataDisplay = (data) => {
     .join("");
   // integrations List
   const integrationsList = integrations
-    .map((integrate) => `<li>${integrate}</li>`)
+    .map((integrate) => `<li>${integrate ? integrate : "No Data Found"}</li>`)
     .join("");
   // Text under the photo
   const input = input_output_examples[0].input;
@@ -114,7 +127,9 @@ const singleDataDisplay = (data) => {
         ${accuracyText}
       </div>
       <h2 class="font-bold text-center text-2xl mb-2">${input}</h2>
-      <p class="text-center text-gray-500">${output ? output : "No!Not Yet! Take a break!!!"}</p>
+      <p class="text-center text-gray-500">${
+        output ? output : "No!Not Yet! Take a break!!!"
+      }</p>
     </div>
   </div>
   <div id="modal-action" class="modal-action">
