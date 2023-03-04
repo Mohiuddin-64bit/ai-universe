@@ -47,25 +47,52 @@ const singleData = (id) => {
 
 const singleDataDisplay = (data) => {
   console.log(data);
-  const {image_link,description,published_in,pricing,id,} = data;
-  const PricingSection = pricing.map((item) => `<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price} ${item.plan} </div>`).join('');
+  const { image_link, features, description, integrations, pricing,input_output_examples} = data;
+  const PricingSection = pricing.map((item) =>`<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price} ${item.plan} </div>`).join("");
+  // Feature List
+  let featuresArray = Object.values(features);
+  const featureList = featuresArray.map(feature => `<li>${feature.feature_name}</li>`).join("");
+  // integrations List
+  const integrationsList = integrations.map(integrate => `<li>${integrate}</li>`).join("")
+  // Text under the photo
+  const input = input_output_examples[0].input;
+  const output = input_output_examples[0].output;
+  console.log(input, output)
   const modalBody = document.getElementById("modal-body");
   modalBody.innerHTML = `
-  <div class="grid grid-cols-2 p-12">
-    <div class="w-56">
-      <h3 class="font-bold text-lg">${description}</h3>
+  <div class="grid grid-cols-2 p-12 gap-6">
+    <div class="border-2 p-5 rounded-lg bg-pink-100">
+      <div class="w-56 mb-8">
+        <h3 class="font-bold text-lg">${description}</h3>
+      </div>
+      <div class="flex gap-2">
+        ${PricingSection}
+      </div>
+      <div class="mt-8 gap-8 flex">
+        <div>
+          <h3 class="font-bold text-3xl">Features</h3>
+          <ol class="list-decimal ml-5">
+            ${featureList}
+          </ol>
+        </div>
+        <div>
+        <h3 class="font-bold text-3xl">integrations</h3>
+        <ol class="list-decimal ml-5">
+          ${integrationsList}
+        </ol>
+        </div>
+      </div>
     </div>
-    <div class="mx-auto">
-      <img class="w-56" src="${image_link[0]}" />
+    <div class="mx-auto border-2 p-8 rounded-lg">
+      <img class="w-full rounded-lg mb-4" src="${image_link[0]}" />
+      <h2 class="font-bold text-center text-2xl mb-2">${input}</h2>
+      <p class="text-center text-gray-500">${output}</p>
     </div>
-    <div class="flex gap-2">
-      ${PricingSection}
-    </div>
-    <div id="modal-action" class="modal-action">
-      <label for="ai-modal" class="btn btn-secondary btn-outline">close!</label>
-    </div>
-
   </div>
+  <div id="modal-action" class="modal-action">
+    <label for="ai-modal" class="btn btn-secondary btn-outline">close!</label>
+  </div>
+
   `;
 };
 
