@@ -7,6 +7,7 @@ const loadData = () => {
 
 const displayData = (data) => {
   // console.log(data);
+  data = data.slice(0, 6);
   const cards = document.getElementById("cards");
   data.forEach((allData) => {
     const { image, name, features, published_in, id } = allData;
@@ -47,22 +48,46 @@ const singleData = (id) => {
 
 const singleDataDisplay = (data) => {
   console.log(data);
-  const { image_link, features, description, integrations, pricing,input_output_examples} = data;
-  const PricingSection = pricing.map((item) =>`<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price} ${item.plan} </div>`).join("");
+  const {
+    image_link,
+    features,
+    description,
+    integrations,
+    pricing,
+    input_output_examples,
+    accuracy,
+  } = data;
+  const PricingSection = pricing
+    .map(
+      (item) =>
+        `<div class="text-center bg-pink-300 text-pink-500 rounded">${item.price} ${item.plan} </div>`
+    )
+    .join("");
   // Feature List
   let featuresArray = Object.values(features);
-  const featureList = featuresArray.map(feature => `<li>${feature.feature_name}</li>`).join("");
+  const featureList = featuresArray
+    .map((feature) => `<li>${feature.feature_name}</li>`)
+    .join("");
   // integrations List
-  const integrationsList = integrations.map(integrate => `<li>${integrate}</li>`).join("")
+  const integrationsList = integrations
+    .map((integrate) => `<li>${integrate}</li>`)
+    .join("");
   // Text under the photo
   const input = input_output_examples[0].input;
   const output = input_output_examples[0].output;
-  console.log(input, output)
+  // Accuracy show
+  var score = accuracy.score;
+  if (score == null) {
+    var accuracyText = "";
+  } else {
+    var accuracyText = `<p class="absolute bg-red-300 right-0 p-2 rounded top-0">Accuracy ${score}</p>`;
+  }
+  console.log(input, output);
   const modalBody = document.getElementById("modal-body");
   modalBody.innerHTML = `
   <div class="grid grid-cols-2 p-12 gap-6">
     <div class="border-2 p-5 rounded-lg bg-pink-100">
-      <div class="w-56 mb-8">
+      <div class="w-full mb-8">
         <h3 class="font-bold text-lg">${description}</h3>
       </div>
       <div class="flex gap-2">
@@ -84,9 +109,12 @@ const singleDataDisplay = (data) => {
       </div>
     </div>
     <div class="mx-auto border-2 p-8 rounded-lg">
-      <img class="w-full rounded-lg mb-4" src="${image_link[0]}" />
+      <div class="relative">
+        <img class="w-full rounded-lg mb-4 " src="${image_link[0]}" />
+        ${accuracyText}
+      </div>
       <h2 class="font-bold text-center text-2xl mb-2">${input}</h2>
-      <p class="text-center text-gray-500">${output}</p>
+      <p class="text-center text-gray-500">${output ? output : "No!Not Yet! Take a break!!!"}</p>
     </div>
   </div>
   <div id="modal-action" class="modal-action">
